@@ -25,13 +25,13 @@ jobs:
         uses: gradle/actions/setup-gradle@dbbdc275be76ac10734476cc723d82dfe7ec6eda # v3.4.2
 
       - name: Build with Gradle
-        run: ./gradlew api:build
+        run: ./gradlew api:clean api:build
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: Package
-          path: build/libs
+          path: api/build/libs
 
       - name: Output Run ID
         run: echo ${{ github.run_id }}
