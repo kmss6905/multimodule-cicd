@@ -1,13 +1,12 @@
-package org.example.githubactions;
+package org.example;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class GithubActionsApplication {
+public class ApiApplication {
 
   public static void main(String[] args) {
-    SpringApplication.run(GithubActionsApplication.class, args);
+    SpringApplication.run(ApiApplication.class, args);
   }
-
 }

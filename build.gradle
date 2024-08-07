@@ -1,36 +1,50 @@
+// Gradle 의 빌드 가장 일반적인 Build Script Block 중 하나
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.3.2'
-    id 'io.spring.dependency-management' version '1.1.6'
+    id 'org.springframework.boot' version '3.2.5'
+    id 'io.spring.dependency-management' version '1.1.4'
 }
 
-group = 'org.example'
-version = '0.0.1-SNAPSHOT'
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+// sub-projects 들 각각 그리고 root 프로젝트를 구성할 때 사용하는 블럭
+allprojects {
+    repositories {
+        mavenCentral()
     }
 }
 
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
+// 개별 sub-project 에 적용되는 블럭
+subprojects {
+
+    apply {
+        plugin 'java'
+    }
+
+    sourceCompatibility = '17'
+
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+
+    bootJar{
+        enabled = true
+    }
+
+    jar{
+        enabled = true
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
     }
 }
 
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-}
-
-tasks.named('test') {
-    useJUnitPlatform()
+bootJar {
+    enabled = false
 }

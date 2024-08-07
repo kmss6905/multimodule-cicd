@@ -1,1 +1,5 @@
 rootProject.name = 'github-actions'
+include 'core'
+include 'admin'
+include 'api'
+
