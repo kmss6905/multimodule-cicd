@@ -8,6 +8,6 @@ public class ApiController {
 
   @GetMapping("/hello")
   public String getCoreVersion() {
-    return "core module version id is :%s".formatted(Version.id);
+    return "core module version id is!  :%s".formatted(Version.id);
   }
 }
