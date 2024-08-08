@@ -3,7 +3,6 @@ run-name: Deploy :${{ github.run_number }}
 on:
   push:
     branches:
-      - main
       - develop
     paths:
       - 'api/**'
@@ -80,7 +79,7 @@ jobs:
         env:
           ECR_REGISTRY: ${{ needs.docker-build-and-push.outputs.ecr_registry }}
         with:
-          host: ${{ secrets.TARGET_HOST }}
+          host: ${{ secrets.TARGET_HOST_DEV }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
