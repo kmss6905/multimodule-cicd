@@ -38,6 +38,6 @@ jobs:
           fi
           
           if echo "$changed_files" | grep -q '^api/'; then
-          echo "build admin"
+          echo "build api"
           ./gradlew api:clean api:test api:build
           fi
