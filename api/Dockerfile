@@ -1,12 +1,12 @@
 FROM eclipse-temurin:17.0.10_7-jdk-jammy as build
 WORKDIR /workspace/app
 
-COPY gradlew .
-COPY gradle gradle
-COPY build.gradle .
-COPY settings.gradle .
+COPY ../gradlew .
+COPY ../gradle gradle
+COPY ../build.gradle .
+COPY ../settings.gradle .
 
-COPY src src
+COPY ../src src
 
 RUN chmod +x ./gradlew && \
     ./gradlew build --exclude-task test
