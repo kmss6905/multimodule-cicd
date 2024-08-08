@@ -33,11 +33,11 @@ jobs:
           changed_files=$(git diff --name-only HEAD^ HEAD)
           
           if echo "$changed_files" | grep -q '^admin/'; then
-            echo 'build admin"
-            ./gradlew admin:clean admin:test admin:build
+          echo "build admin"
+          ./gradlew admin:clean admin:test admin:build
           fi
           
           if echo "$changed_files" | grep -q '^api/'; then
-            echo 'build api"
-            ./gradlew api:clean api:test api:build
+          echo "build admin"
+          ./gradlew api:clean api:test api:build
           fi
