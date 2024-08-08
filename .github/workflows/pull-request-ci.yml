@@ -5,6 +5,10 @@ on:
     branches:
       - main
       - develop
+    paths:
+      - 'admin/**'
+      - 'api/**'
+      - '.github/workflows/**'
 
 jobs:
   Test:
@@ -13,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: '1'
+          fetch-depth: '0'
 
       - name: Setup Java 17 - temurin
         uses: actions/setup-java@v4
@@ -26,10 +30,12 @@ jobs:
 
       - name: Test And Build
         run: |
-          if git diff --name-only HEAD^ HEAD | grep -q '^admin/'; then
-            ./gradlew admin:clean admin:test admin:build
+          changed_files=$(git diff --name-only HEAD^ HEAD)
+          
+          if echo "$changed_files" | grep -q '^admin/'; then
+          ./gradlew admin:clean admin:test admin:build
           fi
-          if git diff --name-only HEAD^ HEAD | grep -q '^api/'; then
-            ./gradlew api:clean api:test api:build
+          
+          if echo "$changed_files" | grep -q '^api/'; then
+          ./gradlew api:clean api:test api:build
           fi
-
