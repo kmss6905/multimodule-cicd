@@ -25,7 +25,6 @@ jobs:
           tags: |
             type=ref,event=branch
             type=ref,event=pr
-            typs=sha,prefix={{branch}}-
             type=raw,value=mytag-{{branch}}-{{sha}}
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
