@@ -42,7 +42,7 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: devapi
         run: |
-          docker buildx --platform=linux/amd64 -t $ECR_REGISTRY/$ECR_REPOSITORY:${{ steps.meta.outputs.tags }} -f api.Dockerfile .
+          docker buildx --platform=linux/amd64 -t ${{ steps.login-ecr.outputs.registry }}/devapi:${{ steps.meta.outputs.tags }} -f api.Dockerfile .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY"
           echo "::set-output name=ecr_registry::$ECR_REGISTRY"
