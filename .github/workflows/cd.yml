@@ -8,7 +8,7 @@ on:
       - 'api/**'
       - '.github/workflows/**'
 env:
-  DOCKER_IMAGE: hellodocker
+  DOCKER_IMAGE: devapi
   ECR_REPOSITORY: 276943215323.dkr.ecr.ap-northeast-2.amazonaws.com
 
 jobs:
@@ -76,8 +76,6 @@ jobs:
     steps:
       - name: Deploy to Dev
         uses: appleboy/ssh-action@master
-        env:
-          ECR_REGISTRY: ${{ needs.docker-build-and-push.outputs.ecr_registry }}
         with:
           host: ${{ secrets.TARGET_HOST_DEV }}
           username: ${{ secrets.SSH_USERNAME }}
