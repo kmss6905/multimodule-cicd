@@ -5,11 +5,10 @@ COPY gradlew .
 COPY gradle gradle
 COPY build.gradle .
 COPY settings.gradle .
-
-COPY src src
+COPY . .
 
 RUN chmod +x ./gradlew && \
-    ./gradlew build --exclude-task test
+    ./gradlew api:clean api:build --exclude-task test
 
 RUN rm -rf /root/.gradle
 
@@ -17,6 +16,6 @@ RUN rm -rf /root/.gradle
 FROM amazoncorretto:17-alpine3.19-jdk
 WORKDIR /app
 
-COPY --from=build /workspace/app/build/libs/*.jar app.jar
+COPY --from=build /workspace/app/api/build/libs/*.jar app.jar
 
 ENTRYPOINT ["java","-jar","app.jar"]

@@ -3,13 +3,12 @@ run-name: Deploy :${{ github.run_number }}
 on:
   push:
     branches:
-      - main
       - develop
     paths:
       - 'api/**'
       - '.github/workflows/**'
 env:
-  DOCKER_IMAGE: hellodocker
+  DOCKER_IMAGE: devapi
   ECR_REPOSITORY: 276943215323.dkr.ecr.ap-northeast-2.amazonaws.com
 
 jobs:
@@ -64,14 +63,12 @@ jobs:
       - name: Build, tag, and push docker image to Amazon ECR
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: hellodocker
+          ECR_REPOSITORY: devapi
         run: |
-          cd api
-          docker buildx build --platform=linux/amd64 -t $ECR_REGISTRY/$ECR_REPOSITORY .
+          docker buildx build --platform=linux/amd64 -t $ECR_REGISTRY/$ECR_REPOSITORY -f api.Dockerfile .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY"
           echo "::set-output name=ecr_registry::$ECR_REGISTRY"
-          cd ..
 
   deploy:
     needs: docker-build-and-push
@@ -79,10 +76,8 @@ jobs:
     steps:
       - name: Deploy to Dev
         uses: appleboy/ssh-action@master
-        env:
-          ECR_REGISTRY: ${{ needs.docker-build-and-push.outputs.ecr_registry }}
         with:
-          host: ${{ secrets.TARGET_HOST }}
+          host: ${{ secrets.TARGET_HOST_DEV }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
