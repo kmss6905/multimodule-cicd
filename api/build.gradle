@@ -2,10 +2,10 @@ plugins {
     id 'java'
     id 'io.spring.dependency-management'
     id 'org.springframework.boot'
-    id 'pl.allegro.tech.build.axion-release' version '1.18.0'
 }
 
-project.version = scmVersion.version
+group = 'api'
+version = '0.0.1-SNAPSHOT'
 
 bootJar.enabled = true
 jar.enabled = true
