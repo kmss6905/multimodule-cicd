@@ -1,13 +1,14 @@
 name: CI Build
 on:
-  push:
-    branches:
-      - main
-    tags:
-      - 'v*'
-  pull_request:
-    branches:
-      - main
+  workflow_dispatch:
+    push:
+      branches:
+        - 'main'
+      tags:
+        - 'v*'
+    pull_request:
+      branches:
+        - 'main'
 
 jobs:
   docker:
@@ -43,7 +44,7 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: devapi
         run: |
-          docker buildx build --platform=linux/amd64 -t $ECR_REGISTRY/$ECR_REPOSITORY:${{ github.ref_name }} -f api.Dockerfile .
+          docker buildx build --platform=linux/amd64 -t $ECR_REGISTRY/$ECR_REPOSITORY:${{ steps.meta.outputs.tags }} -f api.Dockerfile .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY"
           echo "::set-output name=ecr_registry::$ECR_REGISTRY"
